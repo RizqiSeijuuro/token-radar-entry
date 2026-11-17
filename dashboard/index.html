@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Token Radar — pre-token launch board</title>
+<link rel="stylesheet" href="app.css" />
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <span class="dot"></span>
+    <h1>Token Radar</h1>
+  </div>
+  <p class="tagline">Ranks protocols that record no token yet by what a launch would be worth today, and tells you how to farm each one.</p>
+  <div id="meta" class="meta"></div>
+</header>
+
+<nav class="tabs">
+  <button class="tab active" data-view="board">Board</button>
+  <button class="tab" data-view="watchlist">Watchlist only</button>
+  <button class="tab" data-view="live">Live tokens</button>
+  <button class="tab" data-view="about">The model</button>
+</nav>
+
+<main>
+  <section id="controls" class="controls">
+    <input id="search" type="search" placeholder="Search by name or slug…" autocomplete="off" />
+    <select id="category"><option value="">All categories</option></select>
+    <select id="chain"><option value="">All chains</option></select>
+    <label class="checkline"><input type="checkbox" id="only-watchlist" /> Watchlist only</label>
+    <div class="sortgroup">
+      <span>Sort</span>
+      <select id="sort">
+        <option value="rank">Rank</option>
+        <option value="tvl">TVL</option>
+        <option value="change">7d change</option>
+        <option value="ripeness">Ripeness</option>
+        <option value="name">Name</option>
+      </select>
+    </div>
+    <span id="count" class="count"></span>
+  </section>
+
+  <section id="board-view" class="view">
+    <table id="board-table">
+      <thead>
+        <tr>
+          <th data-col="rank">#</th>
+          <th data-col="name">Protocol</th>
+          <th data-col="category">Category</th>
+          <th data-col="chains">Chains</th>
+          <th data-col="tvl">TVL</th>
+          <th data-col="change">7d</th>
+          <th data-col="ripeness">Ripeness</th>
+          <th data-col="implied">Implied value</th>
+          <th data-col="watch"></th>
+        </tr>
+      </thead>
+      <tbody id="board-body"></tbody>
+    </table>
+  </section>
+
+  <section id="live-view" class="view hidden">
+    <p class="note">These protocols already record a token — shown for context, never ranked by the radar's model.</p>
+    <table id="live-table">
+      <thead>
+        <tr><th>Protocol</th><th>Category</th><th>Chains</th><th>Symbol</th><th>TVL</th><th>Market cap</th><th>7d</th></tr>
+      </thead>
+      <tbody id="live-body"></tbody>
+    </table>
+  </section>
+
+  <section id="about-view" class="view hidden">
+    <article class="about">
+      <h2>How the implied value is worked out</h2>
+      <p>Every row's implied value is <code>tvl_usd × category multiple × growth multiplier × ripeness multiplier × discovery multiplier</code>. Nothing is hand-picked per protocol: the same formula runs over every row in the snapshot.</p>
+      <dl id="model-dl"></dl>
+      <h3>Why a bell curve over age, not "older is always better"</h3>
+      <p>A protocol with no track record is a protocol you can't underwrite — there's no history to show it survives a drawdown. A protocol that has run for years with still no token is also past its highest odds: the market has largely priced in "no airdrop is coming". The ripeness curve peaks in between, rewarding protocols old enough to trust and young enough that a launch is still plausible.</p>
+    </article>
+  </section>
+</main>
+
+<div id="detail" class="detail hidden">
+  <div class="detail-card">
+    <button id="detail-close" class="close" aria-label="Close">×</button>
+    <div id="detail-body"></div>
+  </div>
+</div>
+
+<script src="../data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
